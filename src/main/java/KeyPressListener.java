@@ -3,9 +3,11 @@ import pro.beam.interactive.net.packet.Protocol;
 
 import java.awt.*;
 
+
 public class KeyPressListener implements EventListener<Protocol.Report> {
     // This Robot is an AWT Robot, not a Beam one. It knows how to press keys on the keyboard.
     protected Robot keyboard;
+    protected VisualAid aid = new VisualAid();
 
     // Basic no-args constructor, nothing special here...
     public KeyPressListener() {
@@ -28,8 +30,10 @@ public class KeyPressListener implements EventListener<Protocol.Report> {
             if (pressCount > 0) {
                 System.out.println(pressCount + " press during this frame");
                 System.out.println("Button #" + buttonID + " Pressed");
-
                 new KeyHandler(buttonID);
+                if(buttonID == 13){
+                	aid.update();
+                }
 
             }
         }
