@@ -1,0 +1,19 @@
+group 'com.mrmc.beam.brainfuck'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "beam"
+        url = "https://maven.beam.pro/content/repositories/snapshots"
+    }
+}
+
+dependencies {
+    compile "pro.beam:api:2.0.0-SNAPSHOT"
+    compile "pro.beam:interactive:1.5.1-SNAPSHOT"
+}
