@@ -7,14 +7,9 @@ import java.io.IOException;
 public class KeyPressListener implements EventListener<Protocol.Report> {
     // This Robot is an AWT Robot, not a Beam one. It knows how to press keys on the keyboard.
     protected Robot keyboard;
-    private boolean sendUpdate = false;
 
     // Basic no-args constructor, nothing special here...
     public KeyPressListener() {
-        try {
-            this.keyboard = new Robot();
-        } catch (AWTException ignored) {
-        }
     }
 
     // The handler method. This method is invoked when a new Report message is received over the wire.
