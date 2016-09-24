@@ -19,6 +19,6 @@ public enum KeyValues {
     DOWN,
     LEFT,
     RIGHT,
-    BUILD
-
+    BUILD,
+    STOP
 }

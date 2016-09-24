@@ -89,7 +89,7 @@ public class Chat {
                     .password(stringPass)
                     .channel(userBot.channel.id).build(beam).get();
             /**
-             *
+             * We basically pass all of the report data to the KeyPressListener
              */
             beamBot.on(Protocol.Report.class, new KeyPressListener());
 
