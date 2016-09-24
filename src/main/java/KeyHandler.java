@@ -137,6 +137,7 @@ public class KeyHandler {
             default:
                 System.out.println("Unknown button of ID " + keyID);
         }
+        Chat.keypressStats.addCount(keyID);
 
 
         try {

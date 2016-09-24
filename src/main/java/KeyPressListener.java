@@ -2,7 +2,6 @@ import pro.beam.interactive.event.EventListener;
 import pro.beam.interactive.net.packet.Protocol;
 
 import java.awt.*;
-import java.io.IOException;
 
 public class KeyPressListener implements EventListener<Protocol.Report> {
     // This Robot is an AWT Robot, not a Beam one. It knows how to press keys on the keyboard.

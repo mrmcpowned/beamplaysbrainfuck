@@ -4,13 +4,14 @@ import java.util.Observable;
 /**
  * This class will hold stats data about keypresses
  */
-public class KeyStats implements Observable {
+public class KeyStats extends Observable {
     /**
      * Before the revelation of using an array, I had separate values for each button.
      * Then I realized the button IDs are enumerable, so I can just add them to an array and call them
      * without any issue.
      */
     private long pressStats[] =  new long[KeyValues.values().length];
+    private String currentOutput;
 
 
     public KeyStats(){
@@ -21,12 +22,15 @@ public class KeyStats implements Observable {
      * Add to the current count of presses which starts at 0
      * @param KeyID ID of the key to increment the count for
      */
-    public void addCount(int keyID){
+    synchronized public void addCount(int keyID){
         pressStats[keyID]++;
+        System.out.println("Key " + keyID + " incremented to " + pressStats[keyID]);
         /**
          * Since this object is being watched, we need to notify observers of a change
          */
-        notifyObservers();
+        currentOutput = currentKeyStats();
+        setChanged();
+        notifyObservers(currentOutput);
     }
 
     /**

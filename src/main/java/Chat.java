@@ -20,6 +20,7 @@ public class Chat {
 
     static BeamChatConnectable chatConnectable;
     static pro.beam.interactive.robot.Robot beamBot;
+    static KeyStats keypressStats;
 
     public static void main(String[] args) throws Exception {
         /**
@@ -84,11 +85,20 @@ public class Chat {
             });
 
 
+            /**
+             * Here we're using an Object observer to update the stats file.
+             * Since we have a function that's used to modify the
+             */
+            keypressStats = new KeyStats();
+            StatFileWriter writeStats = new StatFileWriter(keypressStats.currentKeyStats());
+            keypressStats.addObserver(writeStats);
+
             beamBot = new RobotBuilder()
                     .username(userText)
                     .password(stringPass)
                     .channel(userBot.channel.id).build(beam).get();
-            /**
+
+            /*
              * We basically pass all of the report data to the KeyPressListener
              */
             beamBot.on(Protocol.Report.class, new KeyPressListener());
