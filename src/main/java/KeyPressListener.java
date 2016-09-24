@@ -24,43 +24,36 @@ public class KeyPressListener implements EventListener<Protocol.Report> {
     public void handle(Protocol.Report report) {
         // Iterate through each tactile key-press in the report's tactile list, and preform actions
         // based on the state of a particular TactileInfo instance.
-
-
         for (Protocol.Report.TactileInfo tactile : report.getTactileList()) {
+            //Assign a variable to whatever the number of users currently pressing this key is
             double pressCount = tactile.getPressFrequency();
+            //Assign the ID of the current button
             int buttonID = tactile.getId();
-//            Protocol.ProgressUpdate.Builder build = Protocol.ProgressUpdate.newBuilder();
-//            Protocol.ProgressUpdate.TactileUpdate.Builder tacbuilder = Protocol.ProgressUpdate.TactileUpdate.newBuilder();
-
-//            System.out.println(fired + " hasfired before keycheck");
-//            System.out.println(tacbuilder.hasFired()+ " hasfired before keycheck");
-//            System.out.println(tacbuilder.getFired() + " getfired before keycheck");
-//            System.out.println(build.getTactileList().get(0).hasFired() + " hasfired before keycheck for build");
-//            System.out.println(build.getTactileList().get(0).getFired() + " getfired before keycheck for build");
             // If the key is not pressed down, skip it.
-//            System.out.println("Button #" + buttonID + " Pressed");
             if (pressCount > 0) {
-//                System.out.println(fired + " getfired AFTER keycheck");
+//            System.out.println("Button #" + buttonID + " Pressed");
                 // Otherwise, trigger an AWT key press with the same keycode.
 //            this.keyboard.keyPress(buttonID);
                 System.out.println(pressCount + " Are pressing the button");
 //                System.out.println(tactile.getHolding() + " Are supposedly pressing the button");
                 System.out.println("Button #" + buttonID + " Pressed");
-//                Protocol.Report.Users.Builder users = Protocol.Report.Users.newBuilder();
-//                int userData = users.getActive();
-//                System.out.println(userData + " Active users");
-//                int numCurrent = users.getActive();
-//                System.out.println(numCurrent + " Users pressed buttons");
 
+                //In order to send back a visual response of buttons being pressed, we need to create a generic builder
                 Protocol.ProgressUpdate.Builder build = Protocol.ProgressUpdate.newBuilder();
+                //Then, we need to create an input specific builder
                 Protocol.ProgressUpdate.TactileUpdate.Builder tacbuilder = Protocol.ProgressUpdate.TactileUpdate.newBuilder();
+                //**Then**, within that builder, we apply properties that we want set.
+                //NOTE: We can't actually get the state of the UI itself, and the properties we apply are persistent
                 tacbuilder
                         .setId(buttonID)
                         .setFired(true)
                         .setProgress(1);
+
                 if (buttonID == 13) {
+                    //You could send a message via chat when a button is pressed
 //                    Chat.chatConnectable.send(ChatSendMethod.of(
 //                            String.format("You pressed button UP which is button %s", buttonID)));
+                    //For this specific button (Build Button), we've added a global cooldown of 30s, represented in milliseconds
                     tacbuilder.setCooldown(30000);
                 }
                 build.addTactile(tacbuilder);
@@ -69,6 +62,7 @@ public class KeyPressListener implements EventListener<Protocol.Report> {
                 try {
                     Chat.beamBot.write(pu);
                     System.out.println("Sent visual update");
+                    //This stuff could probably be placed into a method/class
                     tacbuilder.setFired(false).setProgress(0);
                     build.addTactile(tacbuilder);
                     pu = build.build();
@@ -78,7 +72,6 @@ public class KeyPressListener implements EventListener<Protocol.Report> {
                     ex.printStackTrace();
                 }
 
-//                System.out.println("Added button");
             }
         }
 

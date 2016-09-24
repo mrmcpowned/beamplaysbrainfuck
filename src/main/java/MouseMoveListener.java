@@ -26,8 +26,13 @@ public class MouseMoveListener implements EventListener<Protocol.Report> {
         // Move the mouse to the calculated mean of each of the individual axis respectively.
         Protocol.Coordinate coordMean = report.getJoystick(0).getCoordMean();
         Point mousePosition = MouseInfo.getPointerInfo().getLocation();
+        //So for some reason whenever there isn't any movement, the response is resolved to "NaN"
+        //or, Not a Number. For this, we need to make sure that both coordinates are actual numbers, else
+        //the mouse gets stuck in the corner.
         if (!Double.isNaN(coordMean.getX()) && !Double.isNaN(coordMean.getY())) {
             mouse.mouseMove(
+                    //Since coordMean will report a value between 0 to 1, and pixels can't be doubles
+                    //you need to cast the result to an int
                     ((int) (mousePosition.getX() + (300 * coordMean.getX()))),
                     ((int) (mousePosition.getY() + (300 * coordMean.getY())))
             );
