@@ -1,23 +1,26 @@
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
+import java.util.ArrayList;
 import javax.swing.*;
 public class VisualAid {
 	FileInputStream level;
 	FileInputStream output;
 	private int levelCounter = 0;
-	private String[] levelnames = {"level1.txt","level2.txt","level3.txt"};
+	private ArrayList<String> labels = new ArrayList<String>();
 	JFrame frame = new JFrame();
 	JPanel panel = new JPanel();
-	JLabel difficulty = new JLabel();
 	JLabel matched = new JLabel("NOT MATCHED");
-	JLabel diffchar = new JLabel("Amount of different character: ");
-	
+	JLabel diffchar = new JLabel("Amount of different characters: ");
+	JLabel currentLevel = new JLabel("Current Level: " + (levelCounter + 1));
+	JLabel lastLevel = new JLabel();
 	//Sorry about the ugly try-catches. I had no choice
 	 public VisualAid() {
+		 gatherLevels();
+		 lastLevel.setText("Last Level: " + labels.size());
 		 try {
-			level= new FileInputStream("C:\\Users\\bunu\\Desktop\\"+levelnames[levelCounter]);
+			level= new FileInputStream("C:\\Users\\bunu\\Desktop\\levels\\"+labels.get(levelCounter));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -29,7 +32,7 @@ public class VisualAid {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		 difficulty = new JLabel("Level "+ (levelCounter+1));
+		 currentLevel = new JLabel("Current Level: "+ (levelCounter+1));
 		 int diff = 0;
 		 try{
 			 diff = difference(level,output);
@@ -38,13 +41,13 @@ public class VisualAid {
 		 panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		 panel.add(matched);
 	     panel.add(diffchar);
-	     panel.add(difficulty);
+	     panel.add(currentLevel);
+	     panel.add(lastLevel);
 	     frame.add(panel);
 	     frame.pack();
 	     frame.setVisible(true);
 	 }
 	 private int difference(FileInputStream file1, FileInputStream file2) throws IOException{
-		 System.out.println("hit2");
 		 FileInputStream smaller = file1;
 		 FileInputStream bigger = file2;
 		 int counter = 0;
@@ -60,48 +63,87 @@ public class VisualAid {
 			 	counter++;
              }
          }
-		 
-		 System.out.println(bigger.getChannel().size()-smaller.getChannel().size());
 		 counter+=bigger.getChannel().size() - smaller.getChannel().size();
-		 System.out.println("counter: "+counter);
-		 
 		 return counter;
+	 }
+	 private void gatherLevels(){
+		 File[] files = new File("C:\\Users\\bunu\\Desktop\\levels").listFiles();
+		 for (File file : files) {
+			    if (file.isFile()) {
+			        labels.add(file.getName().toString());
+			    }
+			}
 	 }
 	 
 	 public void update(){
-		 int difference=0;
-		 try {
-			level = new FileInputStream("C:\\Users\\bunu\\Desktop\\"+levelnames[levelCounter]);
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		 
-		 try {
-			output = new FileInputStream("C:\\Users\\bunu\\Desktop\\output.txt");
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			difference = difference(level,output);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 
-		 if(difference == 0){
-			 matched.setText("Matched");
-			 diffchar.setText("Amount of different character: 0");
-			 if(levelCounter + 1 < levelnames.length){
-				 levelCounter++;
-				 matched.setText("Not Matched");
-				 difficulty.setText("Level "+(levelCounter+1));
+		 System.out.println("levelCounter: " + levelCounter);
+		 System.out.println("label size: "+ labels.size());
+		 if(levelCounter<=(labels.size()-1)){
+			 int difference=0;
+			 try {
+				level = new FileInputStream("C:\\Users\\bunu\\Desktop\\levels\\"+labels.get(levelCounter));
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			 
+			 try {
+				output = new FileInputStream("C:\\Users\\bunu\\Desktop\\output.txt");
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			try {
+				difference = difference(level,output);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 
+			 if(difference == 0){
+				 matched.setText("Matched");
+				 diffchar.setText("Amount of different characters: 0");
+					 levelCounter++;
+					 currentLevel.setText("Current Level: " + (levelCounter+1));
+					 matched.setText("Not Matched");
+					 if(levelCounter < labels.size()){
+						 try {
+							level = new FileInputStream("C:\\Users\\bunu\\Desktop\\levels\\"+labels.get(levelCounter));
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					 }
+					 else{
+						 System.out.println("else");
+						 frame.getContentPane().removeAll();
+						 JOptionPane.showMessageDialog(frame, "You have completed all the levels that were provided.");
+						 System.exit(0);
+					 }
+					 try {
+						diffchar.setText("Amount of different characters: " + difference(level,output));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					 currentLevel.setText("Current Level: "+(levelCounter+1));
+				 
 			 }
+		
+			 else{
+				 try {
+					diffchar.setText("Amount of different characters: "+difference(level,output));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 }
+			 
 		 }
 		 else{
-			 diffchar.setText("Amount of different character: "+difference);
+			 System.out.println("else");
+			 frame.getContentPane().removeAll();
+			 JOptionPane.showMessageDialog(frame, "You have completed all the levels that were provided.");
 		 }
-		 
 	 }
 }
