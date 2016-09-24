@@ -63,7 +63,6 @@ public class KeyPressListener implements EventListener<Protocol.Report> {
 //                            String.format("You pressed button UP which is button %s", buttonID)));
                     tacbuilder.setCooldown(30000);
                 }
-//                System.out.println(fired + " getfired");
                 build.addTactile(tacbuilder);
                 Protocol.ProgressUpdate pu = build.build();
 
