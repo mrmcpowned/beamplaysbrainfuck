@@ -1,5 +1,3 @@
-package botLoader;
-
 import pro.beam.interactive.net.packet.Protocol;
 
 import java.awt.*;

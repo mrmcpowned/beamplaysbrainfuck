@@ -1,10 +1,7 @@
-package botLoader;
-
 import pro.beam.api.BeamAPI;
 import pro.beam.api.resource.BeamUser;
 import pro.beam.api.resource.chat.BeamChat;
 import pro.beam.api.resource.chat.events.IncomingMessageEvent;
-import pro.beam.api.resource.chat.events.UserJoinEvent;
 import pro.beam.api.resource.chat.methods.AuthenticateMessage;
 import pro.beam.api.resource.chat.methods.ChatSendMethod;
 import pro.beam.api.resource.chat.replies.AuthenticationReply;
@@ -81,12 +78,6 @@ public class BotLoader {
                 }
             });
 
-            chatConnectable.on(UserJoinEvent.class, event -> {
-                chatConnectable.send(ChatSendMethod.of(
-                        String.format("Hi %s! I'm pingbot! Write !ping and I will pong back!",
-                                event.data.username)));
-            });
-
 
             /**
              * Here we're using an Object observer to update the stats file.
@@ -102,7 +93,7 @@ public class BotLoader {
                     .channel(userBot.channel.id).build(beam).get();
 
             /*
-             * We basically pass all of the report data to the botLoader.KeyPressListener
+             * We basically pass all of the report data to the KeyPressListener
              */
             beamBot.on(Protocol.Report.class, new KeyPressListener());
 

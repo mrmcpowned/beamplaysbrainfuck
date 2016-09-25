@@ -1,12 +1,10 @@
-package botLoader;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
 /**
- * botLoader.KeyOut helps with outputting the current key being pressed
+ * KeyOut helps with outputting the current key being pressed
  */
 public class KeyOut {
     public KeyOut() {

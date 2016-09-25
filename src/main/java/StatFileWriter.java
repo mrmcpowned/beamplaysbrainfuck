@@ -1,5 +1,3 @@
-package botLoader;
-
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Observable;
@@ -12,12 +10,12 @@ public class StatFileWriter implements Observer {
     private String statFileName = "TotalStats.txt";
     private String statOutput;
 
-    public StatFileWriter(String input){
+    public StatFileWriter(String input) {
         statOutput = input;
         writeToFile(statFileName);
     }
 
-    synchronized private void writeToFile(String path){
+    synchronized private void writeToFile(String path) {
         PrintWriter output;
         try {
             output = new PrintWriter(path);
@@ -30,6 +28,7 @@ public class StatFileWriter implements Observer {
 
     /**
      * Mandatory to implement observer
+     *
      * @param o
      * @param arg
      */
