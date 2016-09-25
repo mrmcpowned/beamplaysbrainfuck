@@ -73,9 +73,6 @@ public class BotLoader {
                 if (event.data.message.message.get(0).text.startsWith("!ping")) {
                     chatConnectable.send(ChatSendMethod.of(String.format("@%s PONG!", event.data.userName)));
                 }
-                if (!event.data.userName.toLowerCase().equals("beamplaysprogramming")) {
-                    chatConnectable.send(ChatSendMethod.of(String.format("%s", event.data.message.message.get(0).text)));
-                }
             });
 
 
