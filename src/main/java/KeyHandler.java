@@ -36,30 +36,33 @@ public class KeyHandler {
 
     /**
      * As a workaround for default parameters, I just create a "super override" which will apply the defaults for me
+     *
      * @param asciiKey The KeyCode for the key we wish to press
      * @param modified Whether or not we choose to modify the key, with the default modifier being SHIFT
      */
-    private void executePress(int asciiKey, boolean modified){
+    private void executePress(int asciiKey, boolean modified) {
         executePress(asciiKey, modified, KeyEvent.VK_SHIFT);
     }
 
     /**
      * Executes the given key along with 1 modifier
+     *
      * @param asciiKey The KeyCode for the key we wish to press
      * @param modified Whether or not we choose to modify the key
      * @param modifier The keycode of the modifier key to be used, e.g. CTRL
      */
-    private void executePress(int asciiKey, boolean modified, int modifier){
-        if (modified){
+    private void executePress(int asciiKey, boolean modified, int modifier) {
+        if (modified) {
             keyboard.keyPress(modifier);
         }
         keyboard.keyPress(asciiKey);
         keyboard.keyRelease(asciiKey);
-        if (modified){
+        if (modified) {
             keyboard.keyRelease(modifier);
         }
     }
-    private Protocol.ProgressUpdate makeUpdate(Protocol.ProgressUpdate.TactileUpdate.Builder builder){
+
+    private Protocol.ProgressUpdate makeUpdate(Protocol.ProgressUpdate.TactileUpdate.Builder builder) {
         //In order to send back a visual response of buttons being pressed, we need to create a generic builder
         Protocol.ProgressUpdate.Builder build = Protocol.ProgressUpdate.newBuilder();
         //then we add the input specific builder to the general builder
@@ -73,7 +76,7 @@ public class KeyHandler {
     /**
      * Our handler which will execute all the required functions to get a button pressed and visually updated on the UI
      */
-    private void runHandler(){
+    private void runHandler() {
 
         //Then, we need to create an input specific builder
         Protocol.ProgressUpdate.TactileUpdate.Builder tacbuilder = Protocol.ProgressUpdate.TactileUpdate.newBuilder();
@@ -87,7 +90,7 @@ public class KeyHandler {
         /***
          * All these values are fairly self explanatory.
          */
-        switch(keyEnum){
+        switch (keyEnum) {
             case UP:
                 executePress(38, false);
                 break;
@@ -138,6 +141,7 @@ public class KeyHandler {
                 System.out.println("Unknown button of ID " + keyID);
         }
         Chat.keypressStats.addCount(keyID);
+        Chat.keylog.outputToFile(keyEnum.toString());
 
 
         try {

@@ -21,6 +21,7 @@ public class Chat {
     static BeamChatConnectable chatConnectable;
     static pro.beam.interactive.robot.Robot beamBot;
     static KeyStats keypressStats;
+    static KeyOut keylog = new KeyOut();
 
     public static void main(String[] args) throws Exception {
         /**

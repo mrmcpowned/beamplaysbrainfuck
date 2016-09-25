@@ -31,8 +31,8 @@ public class KeyPressListener implements EventListener<Protocol.Report> {
                 System.out.println(pressCount + " press during this frame");
                 System.out.println("Button #" + buttonID + " Pressed");
                 new KeyHandler(buttonID);
-                if(buttonID == 13){
-                	aid.update();
+                if (buttonID == 13) {
+                    aid.update();
                 }
 
             }
