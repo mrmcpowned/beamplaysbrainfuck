@@ -124,9 +124,27 @@ public class VisualAid {
 			    }
 			}
 	 }
+	 private void ahkScript(){
+		  String ahkPath = "C:\\Program Files\\AutoHotkey\\AutoHotkey.exe";
+		  String scriptPath = "C:\\Users\\bunu\\Desktop\\missing_bracket.ahk";
+		  try {
+			Runtime.getRuntime().exec(new String[] { ahkPath, scriptPath} );
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		  Thread.currentThread();
+		  try {
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	 }
 	 
 	 //updates the visual aid to reflect the current status
 	 public void update(){
+		 ahkScript();
 		 System.out.println("levelCounter: " + levelCounter);
 		 System.out.println("label size: "+ labels.size());
 		 if(levelCounter<=(labels.size()-1)){
