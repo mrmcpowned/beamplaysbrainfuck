@@ -46,7 +46,7 @@ public class VisualAid {
         }
         //this grabs the answer to the level the user is on. The answer is the output of the compiled code
         try {
-            correctAns = new FileInputStream("answers\\" + answers.get(levelCounter));
+            correctAns = new FileInputStream("levels\\answers\\" + answers.get(levelCounter));
             reader = new BufferedReader(new InputStreamReader(correctAns));
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
