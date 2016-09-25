@@ -1,3 +1,5 @@
+package botLoader;
+
 import pro.beam.interactive.net.packet.Protocol;
 
 import java.awt.*;
@@ -140,19 +142,19 @@ public class KeyHandler {
             default:
                 System.out.println("Unknown button of ID " + keyID);
         }
-        Chat.keypressStats.addCount(keyID);
-        Chat.keylog.outputToFile(keyEnum.toString());
+        BotLoader.keypressStats.addCount(keyID);
+        BotLoader.keylog.outputToFile(keyEnum.toString());
 
 
         try {
             //I've simplified the building process here by creating a method that handles the
             //ProgressUpdate creation.
-            Chat.beamBot.write(makeUpdate(tacbuilder));
+            BotLoader.beamBot.write(makeUpdate(tacbuilder));
             /**This one resets the state of the button on the UI
              * We also reuse the tacbuilder object, since it's only use is for being a template.
              * And, you know, "reduce, reuse, recycle"
              */
-            Chat.beamBot.write(makeUpdate(tacbuilder.setFired(false).setProgress(0)));
+            BotLoader.beamBot.write(makeUpdate(tacbuilder.setFired(false).setProgress(0)));
         } catch (IOException ex) {
             System.err.println("Failed to send packet.");
             ex.printStackTrace();

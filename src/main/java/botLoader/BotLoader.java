@@ -1,3 +1,5 @@
+package botLoader;
+
 import pro.beam.api.BeamAPI;
 import pro.beam.api.resource.BeamUser;
 import pro.beam.api.resource.chat.BeamChat;
@@ -16,7 +18,7 @@ import pro.beam.interactive.robot.RobotBuilder;
 import javax.swing.*;
 import java.util.concurrent.ExecutionException;
 
-public class Chat {
+public class BotLoader {
 
     static BeamChatConnectable chatConnectable;
     static pro.beam.interactive.robot.Robot beamBot;
@@ -49,7 +51,7 @@ public class Chat {
         String userText = user.getText();
 
         /**
-         * Here we're creating a new Beam Object, which we'll use to build a user login and chat login
+         * Here we're creating a new Beam Object, which we'll use to build a user login and botLoader login
          */
         BeamAPI beam = new BeamAPI();
         BeamUser userBot = beam.use(UsersService.class).login(userText, stringPass).get();
@@ -100,7 +102,7 @@ public class Chat {
                     .channel(userBot.channel.id).build(beam).get();
 
             /*
-             * We basically pass all of the report data to the KeyPressListener
+             * We basically pass all of the report data to the botLoader.KeyPressListener
              */
             beamBot.on(Protocol.Report.class, new KeyPressListener());
 
